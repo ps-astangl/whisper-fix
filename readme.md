@@ -1,7 +1,3 @@
-Sure thing, Captain. Here's the updated README for you to copy and paste:
-
-### README.md
-
 # Whisper Fix
 
 Whisper Fix is a simple implementation of a transcription service using the Whisper model from Hugging Face Transformers. This project records audio, transcribes it, and automatically types the transcription using PyAutoGUI.

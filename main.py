@@ -15,12 +15,14 @@ def signal_handler(sig, frame):
 
 if __name__ == '__main__':
     load_dotenv()
-    # Register the signal handler for graceful termination
+
     signal.signal(signal.SIGINT, signal_handler)
 
-    whisper_model_path = os.getenv('WHISPER_MODEL_PATH')
-    transcriber = WhisperTranscriber(whisper_model_path, None)
-    hotkey_listener = HotkeyListener(transcriber)
+    whisper_model_path: str = os.getenv('WHISPER_MODEL_PATH', "")
+    hotkey: str = os.getenv('HOTKEY', "")
+
+    transcriber: WhisperTranscriber = WhisperTranscriber(whisper_model_path, hotkey)
+    hotkey_listener: HotkeyListener = HotkeyListener(transcriber, hotkey)
 
     listener_thread = threading.Thread(target=hotkey_listener.start_listening)
     listener_thread.start()

@@ -12,7 +12,7 @@ from whisper_fix.whisper_app import WhisperApp
 
 
 class WhisperTranscriber:
-    def __init__(self, model_path: str, hotkey: str, app: WhisperApp, device: str = 'cuda') -> None:
+    def __init__(self, model_path: str, hotkey: str, app: WhisperApp, device: str = 'cpu') -> None:
         self.device: str = device
         try:
             self.processor: WhisperProcessor = WhisperProcessor.from_pretrained(model_path)

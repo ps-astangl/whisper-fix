@@ -1,7 +1,7 @@
 import logging
 from queue import Queue, Empty
 from typing import Tuple, List
-
+import torch
 import keyboard
 import numpy as np
 import pyautogui
@@ -12,7 +12,7 @@ from whisper_fix.whisper_app import WhisperApp
 
 
 class WhisperTranscriber:
-    def __init__(self, model_path: str, hotkey: str, app: WhisperApp, device: str = 'cpu') -> None:
+    def __init__(self, model_path: str, hotkey: str, app: WhisperApp, device: str = torch.cuda.is_available() and 'cuda' or 'cpu') -> None:
         self.device: str = device
         try:
             self.processor: WhisperProcessor = WhisperProcessor.from_pretrained(model_path)
@@ -27,7 +27,7 @@ class WhisperTranscriber:
 
     def transcribe(self, audio_array: np.ndarray, sampling_rate: int, language: str = 'en') -> str:
         try:
-            self.app.set_state('transcribing')
+            self.app.set_state('Transcribing 📝')
             input_features = self.processor(audio_array, sampling_rate=sampling_rate, return_tensors="pt").input_features.to(self.device)
             self.logger.debug(":: Input features generated from audio data.")
             predicted_ids = self.model.generate(input_features, language=language)
@@ -41,10 +41,10 @@ class WhisperTranscriber:
             self.logger.error(f":: Failed to transcribe audio: {str(e)}")
             return ""
         finally:
-            self.app.set_state('idle')
+            self.app.set_state(f'Idle 🎤 ({self.hotkey})')
 
     def record_audio(self, sample_rate: int = 16000) -> Tuple[np.ndarray, int]:
-        self.app.set_state('recording')
+        self.app.set_state('Recording 🎤')
         self.logger.info(":: Starting audio recording.")
         audio_queue: Queue[np.ndarray] = Queue()
         audio_data: List[np.ndarray] = []
@@ -78,11 +78,11 @@ class WhisperTranscriber:
             return np.array([]), sample_rate
 
     def transcribe_from_mic(self, sample_rate: int = 16000, language: str = 'en') -> str:
-        self.app.set_state('recording')
+        self.app.set_state('Recording 🎤')
         try:
             audio_array, sr = self.record_audio(sample_rate)
             if audio_array.size == 0:
                 return ""
             return self.transcribe(audio_array, sr, language=language)
         finally:
-            self.app.set_state('idle')
+            self.app.set_state(f'Idle 🎤 ({self.hotkey})')

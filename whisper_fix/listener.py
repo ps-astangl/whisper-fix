@@ -12,7 +12,7 @@ class HotkeyListener:
         self.app: WhisperApp = app
 
     def start_listening(self) -> None:
-        self.app.set_state('transcribing')
+        self.app.set_state('Transcribing 📝')
         try:
             self.logger.info(f":: Starting hotkey listener for hotkey: {self.hotkey}")
             keyboard.add_hotkey(self.hotkey, self.trigger_transcription)
@@ -20,7 +20,7 @@ class HotkeyListener:
         except Exception as e:
             self.logger.error(f":: Failed to start hotkey listener: {str(e)}")
         finally:
-            self.app.set_state('idle')
+            self.app.set_state(f'Idle 🎤 ({self.hotkey})')
 
     def trigger_transcription(self) -> None:
         try:

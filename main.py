@@ -33,7 +33,7 @@ if __name__ == '__main__':
     root = tk.Tk()
 
     # Display a message when the app starts
-    start_message = tk.Label(root, text="AJs Badass Ass Speach-To-Text 'App' is Running", font=("Arial", 14))
+    start_message = tk.Label(root, text="Speach To Text", font=("Arial", 14))
     start_message.pack(pady=20)  # Add some padding for better layout
 
     label = tk.Label(root, text="Idle", font=("Arial", 12))

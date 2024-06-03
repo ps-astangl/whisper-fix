@@ -17,3 +17,7 @@
 /.idea/vcs.xml
 /.idea/whisper-fix.iml
 /venv/
+.idea/*/**
+*/.idea/*/**/*
+
+.idea/

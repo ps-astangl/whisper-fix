@@ -1,7 +1,7 @@
 echo ":: Activating virtual environment"
 
-./venv/Scripts/Activate.ps1
+& C:\Users\Alfred.Stangl\envs\whisper-fix\Scripts\Activate.ps1
 
 echo ":: Starting application"
 
-python main.py
+python C:\Users\Alfred.Stangl\repos\personal\whisper-fix\main.py
